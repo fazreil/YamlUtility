@@ -1,0 +1,67 @@
+package my.com.midf.digitalbusiness.devops.jasonfyp;
+
+import java.io.File;
+import model.Writer;
+import org.yaml.snakeyaml.Yaml;
+import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+
+import org.yaml.snakeyaml.Yaml;
+
+public class App
+{
+    public static void main( String[] args ) throws Exception
+    {
+        InputStream inputStream = new FileInputStream(new File("./src/main/resources/sample2.yaml"));
+
+        Yaml yaml = new Yaml();
+        Map<String, Object> data = yaml.load(inputStream);
+        System.out.println(data);
+
+        static Reader reader = new Reader();
+        static Writer writer = new Writer();
+       
+
+        /**
+         * Read Basic YAML File
+         */
+        private static void readYaml(){
+        reader.ReadYaml();
+    }
+
+        private static void readYamlWithCollection(){
+        reader.readYamlWithCollection();
+    }
+
+        private static void readYamlAsBean(){
+        reader.ReadYamlAsBean();
+    }
+
+        private static void readYamlAsBeanWithNestedClass(){
+        reader.ReadYamlAsBeanWithNestedClass();
+    }
+
+        private static void writeYaml(){
+        try {
+            writer.WriteYaml();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+        private static void writeYamlBasic(){
+        writer.WriteYamlBasic();
+    }
+
+        private static void writeYamlCollection(){
+        try {
+            writer.WriteYamlBasicWithCollection();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    }
+}

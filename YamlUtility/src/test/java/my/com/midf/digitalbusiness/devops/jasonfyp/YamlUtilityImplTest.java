@@ -26,7 +26,7 @@ public class YamlUtilityImplTest {
 		try {
 			System.out.println("loading sample1.yaml");
 			sampleFile1 = new File(getClass().getClassLoader().getResource("sample1.yaml").getPath());
-			System.out.println("loading sample1.yaml");
+			System.out.println("loading sample2.yaml");
 			sampleFile2 = new File(getClass().getClassLoader().getResource("sample2.yaml").getPath());
 			System.out.println("define yamlUtility");
 			yamlUtility = new YamlUtilityImpl();

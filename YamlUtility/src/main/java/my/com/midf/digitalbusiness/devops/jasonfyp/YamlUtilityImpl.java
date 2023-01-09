@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.yaml.snakeyaml.Yaml;
 
-
 /**
  * This class implements the interface created in YamlUtility, there are
  * overriding functions taken from the interface that are required to be here.
@@ -35,23 +34,22 @@ public class YamlUtilityImpl implements YamlUtility {
 	 */
 	@Override
 	public void read(File file) {
-            InputStream is = null;
-            try {
-                // TODO Auto-generated method stub
-                is = new FileInputStream(file);
-                Yaml yaml = new Yaml();
-                content = yaml.load(is);
-                System.out.println(content);
+		InputStream is = null;
+		try {
+			// TODO Auto-generated method stub
+			is = new FileInputStream(file);
+			Yaml yaml = new Yaml();
+			content = yaml.load(is);
 
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(YamlUtilityImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    is.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(YamlUtilityImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+		} catch (FileNotFoundException ex) {
+			Logger.getLogger(YamlUtilityImpl.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				is.close();
+			} catch (IOException ex) {
+				Logger.getLogger(YamlUtilityImpl.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
 	}
 
 	/**
@@ -59,62 +57,45 @@ public class YamlUtilityImpl implements YamlUtility {
 	 */
 	@Override
 	public String extract(String key) {
-            String[] keyArray = key.split("\\.");
-            return recursiveExtract(0, keyArray, content);
-        }
-        
-        private String recursiveExtract(int index, String[] keyArray, Map map){
-            try{
-                String stringToExtract = "";
-                String key = keyArray[index];
-                if(doesThisMapHas(key, map)){
-                    String newContent = ""+map.get(key);
-                    if(isThisAYaml(newContent)){
-                        Yaml yaml = new Yaml();
-                        newContent = newContent.replaceFirst("\\{", "");
-                        newContent = newContent.substring(0, newContent.length()-1);
-                        System.out.println(newContent);
-                        
-                        Map<String, Object> newMap =  yaml.load(newContent);
-                        index++;
-                        recursiveExtract(index, keyArray, newMap);
-                    }
-                    stringToExtract = newContent;
-                }
-                else{
-                    System.out.println("key "+key+" does not exist");
-                }
-                return stringToExtract;
-            }
-            catch(Exception ex){
-                ex.printStackTrace();
-            }
-            return "";
-        }
-        
-        private boolean isThisAYaml(String possibleYamlString){
+		String[] keyArray = key.split("\\.");
+		String extractedValue = recursiveExtract(0, keyArray, content);
+		return extractedValue;
+	}
 
-            if(possibleYamlString.contains("{")){
-                return true;
-            }
-            else return false;
-        }
-        
-        private boolean doesThisMapHas(String key, Map map){
-            return map.containsKey(key);
-        }
-        
-        private String getValue(String key, Map map){
-            return map.get(key)+"";
-        }
-        
-        private Map getSubMap(String key, Map map){
-            Map<String, Object> smallerMap;
-           Object newContent = map.get(key);
-           Yaml yaml = new Yaml();
-           smallerMap = yaml.load(newContent+"");
-            return smallerMap;
-        }
+	private String recursiveExtract(int index, String[] keyArray, Map map) {
+		try {
+			String stringToExtract = "";
+			String key = keyArray[index];
+			if (doesThisMapHas(key, map)) {
+				if (isThisAYaml("" + map.get(key))) {
+					Yaml yaml = new Yaml();
+
+					Map<String, Object> newMap = yaml.load(yaml.dump(map.get(key)));
+					index++;
+					stringToExtract = recursiveExtract(index, keyArray, newMap);
+				} else {
+					return "" + map.get(key);
+				}
+			} else {
+				System.out.println("key " + key + " does not exist");
+			}
+			return stringToExtract;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return "";
+	}
+
+	private boolean isThisAYaml(String possibleYamlString) {
+		if (possibleYamlString.startsWith("{")) {
+			return true;
+		} else
+			return false;
+	}
+
+	private boolean doesThisMapHas(String key, Map map) {
+		return map.containsKey(key);
+	}
 
 	/**
 	 * write the content object into a new yaml file
@@ -129,7 +110,6 @@ public class YamlUtilityImpl implements YamlUtility {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
 
 	}
 

@@ -50,7 +50,9 @@ public class YamlUtilityImplTest {
 		yamlUtility.read(sampleFile2);
 		assertEquals("John Smith", yamlUtility.extract("person.name"));
 		yamlUtility.read(sampleFile2);
-		assertEquals("700101-07-0002",yamlUtility.extract("ic"));
+		assertEquals("700101-07-0002",yamlUtility.extract("person.ic"));
+		yamlUtility.read(sampleFile2);
+		assertEquals("51000",yamlUtility.extract("person.address.zip"));
 	}
 
 	@Test

@@ -27,10 +27,6 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: install tree
-      run: apt install tree -y
-    - name: take a look at tree
-      run: pwd; tree
     - name: Build with Maven
       run: cd YamlUtility; mvn clean test
 

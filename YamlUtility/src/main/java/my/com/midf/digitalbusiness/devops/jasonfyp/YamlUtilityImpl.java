@@ -6,6 +6,7 @@ package my.com.midf.digitalbusiness.devops.jasonfyp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -102,9 +103,23 @@ public class YamlUtilityImpl implements YamlUtility {
 	 */
 	@Override
 	public File write(File newFile) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("id", 19);
+            dataMap.put("name", "John");
+            dataMap.put("address", "Star City");
+            dataMap.put("department", "Medical");
+            try 
+            {
+                FileWriter myWriter = new FileWriter("sample2.txt");
+                myWriter.write("");
+                myWriter.close();
+                System.out.println("Successfully wrote to the file.");
+            } catch (Exception ex) {
+                System.out.println("An error occurred.");
+                ex.printStackTrace();
+            }
+        }
+          
 
 	/**
 	 * @param args

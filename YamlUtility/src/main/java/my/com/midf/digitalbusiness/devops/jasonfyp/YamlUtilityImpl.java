@@ -103,21 +103,28 @@ public class YamlUtilityImpl implements YamlUtility {
 	 */
 	@Override
 	public File write(File newFile) {
-            Map<String, Object> dataMap = new HashMap<>();
-            dataMap.put("id", 19);
-            dataMap.put("name", "John");
-            dataMap.put("address", "Star City");
-            dataMap.put("department", "Medical");
+		// I don't think we need these because we are writing the value of content from line 31 into newFile
+//            Map<String, Object> dataMap = new HashMap<>();
+//            dataMap.put("id", 19);
+//            dataMap.put("name", "John");
+//            dataMap.put("address", "Star City");
+//            dataMap.put("department", "Medical");
+		
             try 
             {
-                FileWriter myWriter = new FileWriter("sample2.txt");
-                myWriter.write("");
+                FileWriter myWriter = new FileWriter(newFile);
+                Yaml yaml = new Yaml();
+                String dumpedContent = yaml.dump(content);
+                myWriter.write(dumpedContent);
                 myWriter.close();
                 System.out.println("Successfully wrote to the file.");
+                return newFile;
             } catch (Exception ex) {
                 System.out.println("An error occurred.");
                 ex.printStackTrace();
+                return newFile;
             }
+            
         }
           
 

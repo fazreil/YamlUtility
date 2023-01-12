@@ -32,7 +32,10 @@ public class YamlUtilityImplTest {
 			yamlUtility = new YamlUtilityImpl();
 			System.out.println("creating SampleOutputFile.yaml");
 			sampleOutputFile = new File("SampleOutputFile.yaml");
-			sampleOutputFile.createNewFile();
+			sampleOutputFile.createNewFile();		} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,14 +63,11 @@ public class YamlUtilityImplTest {
 		try {
 			System.out.println("testing .write() function");
 			yamlUtility.read(sampleFile2);
-			InputStream sampleInputStream = new FileInputStream(sampleOutputFile);
-			yamlUtility.write(sampleOutputFile);
-			InputStream sampleInputStreamWritten = new FileInputStream(sampleOutputFile);
-			assertFalse("Content of file stream shall be different",IOUtils.contentEquals(sampleInputStream, sampleInputStreamWritten));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+			Long emptyFileSize = sampleOutputFile.length();
+			sampleOutputFile = yamlUtility.write(sampleOutputFile);
+			Long newFileSize = sampleOutputFile.length();
+			assertFalse("Content of file stream shall be different",emptyFileSize == newFileSize);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
